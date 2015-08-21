@@ -11,6 +11,26 @@ var elixir = require('laravel-elixir');
  |
  */
 
+// require('laravel-elixir-browser-sync');
+var BrowserSync = require('laravel-elixir-browsersync');
+
 elixir(function(mix) {
     mix.sass('app.scss');
+
+    BrowserSync.init();
+    mix.BrowserSync({
+        proxy           : "dmca-app.local",
+        logPrefix       : "BS",
+        // tunnel          : true,
+        logConnections  : true,
+        logFileChanges  : true,
+        reloadOnRestart : true,
+        notify          : false
+    });
+
+    // mix.styles([
+    //  'vendor/bootstrap.css',
+    //  'app.css'
+    // ], null, 'public/css');
+
 });

@@ -1,2 +1,17 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "partials/primer";
 
+.wedge-top {
+    margin-top: 2rem;
+}
+
+.wedge-bottom {
+    margin-bottom: 2rem;
+}
+
+.shim-top {
+    margin-top: 1rem;
+}
+
+.shim-bottom {
+    margin-bottom: 1rem;
+}
