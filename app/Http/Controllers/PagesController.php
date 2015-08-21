@@ -13,4 +13,10 @@ class PagesController extends Controller
     {
     	return view('pages.home');
     }
+
+    public function dashboard()
+    {
+        $user = \Auth::user();
+    	return view('pages.dashboard', compact('user'));
+    }
 }
