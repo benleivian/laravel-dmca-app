@@ -23,3 +23,5 @@ Clear any compiled configuration data
 Migrate database
 
     php artisan migrate
+
+Install [Forms & HTML](http://laravelcollective.com/docs/5.1/html) component.
