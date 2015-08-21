@@ -13,7 +13,15 @@
 
 Route::get('/', 'PagesController@home');
 
+/**
+ * Dashboard
+ */
 Route::get('dashboard', ['middleware' => 'auth', 'uses' => 'PagesController@dashboard' ]);
+
+/**
+ * Notices
+ */
+Route::resource('notices', 'NoticesController');
 
 /**
  * Authentication Routes
