@@ -41,3 +41,21 @@ Fix gulp-notify error on homestead
 Install [browsersync for elixr](https://github.com/anheru88/laravel-elixir-browser-sync)
 
     npm install laravel-elixir-browsersync --save-dev
+
+## Content Providers
+
+Make form request for validation
+
+    php artisan make:request PrepareNoticeRequest
+
+Create providers table
+    
+    php artisan make:migration create_providers_table --create=providers
+
+Migrate providers table
+
+    php artisan migrate
+
+Create a model for Provider
+
+    php artisan make:model Provider
