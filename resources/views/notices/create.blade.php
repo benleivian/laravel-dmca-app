@@ -12,10 +12,12 @@
     <div class="columns">
       <div class="column centered">
 
-      {!! Form::open() !!}
+      @include ('errors.list')
+
+      {!! Form::open(['method' => 'GET', 'action' => 'NoticesController@confirm']) !!}
 
           <div>{!! Form::label('provider_id', 'Provider:') !!}</div>
-          <p>{!! Form::select('provider_id', ['YouTube', 'Vimeo', 'Flickr'], null, ['class' => 'input-block']) !!}</p>
+          <p>{!! Form::select('provider_id', $providers, null, ['class' => 'input-block']) !!}</p>
 
           <div>{!! Form::label('infringing_title', 'Infringing Title:') !!}</div>
           <p>{!! Form::text('infringing_title', null, ['class' => 'input-block']) !!}</p>
