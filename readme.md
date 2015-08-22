@@ -1,10 +1,10 @@
-# Laracasts - DMCA App
+# Laravel 5.1 - DMCA App
 
 ## [Install Laravel](https://laracasts.com/series/build-your-first-app-in-laravel/episodes/2)
 
 Install using composer
 
-    laravel new dmca-app
+    composer create-project laravel/laravel laravel-dmca-app
 
 Adjust `.env` as needed
 
