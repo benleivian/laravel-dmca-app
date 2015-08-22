@@ -21,6 +21,7 @@ Route::get('dashboard', ['middleware' => 'auth', 'uses' => 'PagesController@dash
 /**
  * Notices
  */
+Route::get('notices/create/confirm', 'NoticesController@confirm');
 Route::resource('notices', 'NoticesController');
 
 /**
