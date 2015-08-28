@@ -42,9 +42,20 @@ class NoticesController extends Controller
      */
     public function confirm(PrepareNoticeRequest $request, Guard $auth)
     {
-        $template = $this->compileDmcaTemplate($request->all(), $auth);
+        $template = $this->compileDmcaTemplate($data = $request->all(), $auth);
+
+        session()->flash('dmca', $data);
 
         return view('notices.confirm', compact('template'));
+    }
+
+    public function store()
+    {
+        // Get the original form fields.
+        $data = session()->get('dmca');
+
+        // Get the template text.
+        $template = \Request::input('template');
     }
 
     /**
