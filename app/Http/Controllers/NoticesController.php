@@ -33,16 +33,35 @@ class NoticesController extends Controller
     	return view('notices.create', compact('providers'));
     }
 
+    /**
+     * Ask the user to confirm the DMCA that will be delivered.
+     *
+     * @param  PrepareNoticeRequest $request
+     * @param  Guard $auth
+     * @return
+     */
     public function confirm(PrepareNoticeRequest $request, Guard $auth)
     {
-        $data = $request->all() + [
+        $template = $this->compileDmcaTemplate($request->all(), $auth);
+
+        return view('notices.confirm', compact('template'));
+    }
+
+    /**
+     * Compile the DMCA template from the form data.
+     *
+     * @param  $data
+     * @param  Guard $auth
+     * @return
+     */
+    public function compileDmcaTemplate($data, Guard $auth)
+    {
+        $data = $data + [
             'name'  => $auth->user()->name,
             'email' => $auth->user()->email,
         ];
 
-        $template = view()->file(app_path('Http/Templates/dmca.blade.php'), $data);
-
-        return view('notices.confirm', compact('template'));
+        return view()->file(app_path('Http/Templates/dmca.blade.php'), $data);
     }
 
 }
