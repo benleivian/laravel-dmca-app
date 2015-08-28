@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Auth\Guard;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use \App\Provider;
+use \App\Http\Requests\PrepareNoticeRequest;
 
 class NoticesController extends Controller
 {
@@ -31,10 +33,16 @@ class NoticesController extends Controller
     	return view('notices.create', compact('providers'));
     }
 
-    public function confirm(Requests\PrepareNoticeRequest $request)
+    public function confirm(PrepareNoticeRequest $request, Guard $auth)
     {
-        // Review the form data.
-        return $request->all();
+        $data = $request->all() + [
+            'name'  => $auth->user()->name,
+            'email' => $auth->user()->email,
+        ];
+
+        $template = view()->file(app_path('Http/Templates/dmca.blade.php'), $data);
+
+        return view('notices.confirm', compact('template'));
     }
 
 }
