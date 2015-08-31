@@ -20,11 +20,13 @@ class NoticesController extends Controller
 	public function __construct()
 	{
 		$this->middleware('auth');
+
+        parent::__construct();
 	}
 
     public function index()
     {
-        $notices = Auth::user()->notices;
+        $notices = $this->user->notices;
 
     	return view('notices.index', compact('notices'));
     }
@@ -45,9 +47,9 @@ class NoticesController extends Controller
      * @param  Guard $auth
      * @return
      */
-    public function confirm(PrepareNoticeRequest $request, Guard $auth)
+    public function confirm(PrepareNoticeRequest $request)
     {
-        $template = $this->compileDmcaTemplate($data = $request->all(), $auth);
+        $template = $this->compileDmcaTemplate($data = $request->all());
 
         session()->flash('dmca', $data);
 
@@ -78,14 +80,13 @@ class NoticesController extends Controller
      * Compile the DMCA template from the form data.
      *
      * @param  $data
-     * @param  Guard $auth
      * @return
      */
-    public function compileDmcaTemplate($data, Guard $auth)
+    public function compileDmcaTemplate($data)
     {
         $data = $data + [
-            'name'  => $auth->user()->name,
-            'email' => $auth->user()->email,
+            'name'  => $this->user->name,
+            'email' => $this->user->email,
         ];
 
         return view()->file(app_path('Http/Templates/dmca.blade.php'), $data);
@@ -111,7 +112,7 @@ class NoticesController extends Controller
         $notice = Notice::open($data);
 
         // Add the user id to data and save.
-        $notice = Auth::user()->notices()->save($notice);
+        $notice = $this->user->notices()->save($notice);
 
         return $notice;
     }
