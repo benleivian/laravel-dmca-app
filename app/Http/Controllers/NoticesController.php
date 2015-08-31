@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Auth\Guard;
+use Mail;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -60,9 +61,15 @@ class NoticesController extends Controller
      */
     public function store(Request $request)
     {
-        $this->createNotice($request);
+        $notice = $this->createNotice($request);
 
-        // Send email (todo)
+        // Send the DMCA email.
+        Mail::queue('emails.dmca', compact('notice'), function ($message) use ($notice) {
+            $message
+                ->from($notice->getOwnerEmail())
+                ->to($notice->getRecipientEmail())
+                ->subject('DMCA Notice');
+        });
 
         return redirect('notices');
     }
@@ -104,7 +111,9 @@ class NoticesController extends Controller
         $notice = Notice::open($data);
 
         // Add the user id to data and save.
-        Auth::user()->notices()->save($notice);
+        $notice = Auth::user()->notices()->save($notice);
+
+        return $notice;
     }
 
 }
