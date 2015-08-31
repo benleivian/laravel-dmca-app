@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 
 use \App\Provider;
 use \App\Http\Requests\PrepareNoticeRequest;
+use \App\Notice;
+use Auth;
 
 class NoticesController extends Controller
 {
@@ -21,7 +23,9 @@ class NoticesController extends Controller
 
     public function index()
     {
-    	return view('notices.index');
+        $notices = Auth::user()->notices;
+
+    	return view('notices.index', compact('notices'));
     }
 
     public function create()
@@ -49,13 +53,18 @@ class NoticesController extends Controller
         return view('notices.confirm', compact('template'));
     }
 
-    public function store()
+    /**
+     * Store a new DMCA notice.
+     *
+     * @param  Request $request
+     */
+    public function store(Request $request)
     {
-        // Get the original form fields.
-        $data = session()->get('dmca');
+        $this->createNotice($request);
 
-        // Get the template text.
-        $template = \Request::input('template');
+        // Send email (todo)
+
+        return redirect('notices');
     }
 
     /**
@@ -73,6 +82,29 @@ class NoticesController extends Controller
         ];
 
         return view()->file(app_path('Http/Templates/dmca.blade.php'), $data);
+    }
+
+    /**
+     * Create and save a new DMCA notice.
+     *
+     * @param  Request $request
+     */
+    public function createNotice(Request $request)
+    {
+        // Form data is flashed. Get the original form fields.
+        $data = session()->get('dmca');
+
+        // Template is in request. Get the template text.
+        $template = $request->input('template');
+
+        // Add template to data array.
+        $data['template'] = $template;
+
+        // Build a Notice object.
+        $notice = Notice::open($data);
+
+        // Add the user id to data and save.
+        Auth::user()->notices()->save($notice);
     }
 
 }
