@@ -13,7 +13,7 @@
         <div class="column centered">
 
             @foreach ($notices as $notice)
-            <p>Notice: {{ $notice->id }}</p>
+            <p>Notice {{ $notice->id }}: {{ $notice->infringing_title }}</p>
             @endforeach
 
             <div class="btn-group" style="margin-top:2rem;">
