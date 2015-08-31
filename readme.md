@@ -65,3 +65,9 @@ Create a model for Provider
 Create a model for Notice with migration
 
     php artisan make:model Notice -m
+
+## Hooking into Mandrill / Mailgun
+
+Install Guzzle
+    
+    composer require guzzlehttp/guzzle:~5.3|~6.0
