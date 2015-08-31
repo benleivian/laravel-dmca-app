@@ -59,3 +59,9 @@ Migrate providers table
 Create a model for Provider
 
     php artisan make:model Provider
+
+## Storing the DMCA Notice
+
+Create a model for Notice with migration
+
+    php artisan make:model Notice -m
