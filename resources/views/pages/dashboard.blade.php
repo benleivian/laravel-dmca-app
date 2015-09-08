@@ -11,6 +11,9 @@
 <div class="container markdown-body">
 	<div class="columns">
 	  <div class="column centered">
+
+		@include('partials.flash')
+
 	  	<p class="lead">{{ $user->name }}</p>
 	  	<p>{{ $user->email }}</p>
 	  </div>

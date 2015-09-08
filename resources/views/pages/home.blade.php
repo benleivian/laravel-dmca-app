@@ -12,6 +12,7 @@
 	<div class="columns">
 	  <div class="column centered">
 
+	  @include('partials.flash')
 
 	  </div>
 	</div>
