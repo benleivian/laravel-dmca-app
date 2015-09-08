@@ -1,7 +1,7 @@
 <nav class="masthead-nav">
   @if (Auth::check())
     <a href="{{ url('/dashboard') }}">Dashboard</a>
-    <a href="{{ url('/notices/create') }}">Create Notice</a>
+    <a href="{{ url('/notices') }}">Notices</a>
   @else
     <a href="/">Home</a>
   @endif
