@@ -66,14 +66,27 @@ class NoticesController extends Controller
         $notice = $this->createNotice($request);
 
         // Send the DMCA email.
-        Mail::queue('emails.dmca', compact('notice'), function ($message) use ($notice) {
+        Mail::queue(['text' => 'emails.dmca'], compact('notice'), function ($message) use ($notice) {
             $message
                 ->from($notice->getOwnerEmail())
                 ->to($notice->getRecipientEmail())
                 ->subject('DMCA Notice');
         });
 
+        session()->flash('flash_message', 'Your notice has been successfully sent to ' . $notice->getRecipientEmail() . '.');
+
         return redirect('notices');
+    }
+
+    public function update($noticeId, Request $request)
+    {
+        $isRemoved = $request->has('content_removed');
+
+        Notice::findOrFail($noticeId)->update(['content_removed' => $isRemoved]);
+
+        session()->flash('flash_message', 'Notice ' . $noticeId . ' has been successfully updated.');
+
+        return redirect()->back();
     }
 
     /**
